@@ -1,0 +1,16 @@
+{
+  "name": "pomelo-presure-client",
+  "version": "0.0.1",
+  "description": "压测机器人的连接库",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "peter4431",
+  "license": "ISC",
+  "dependencies": {
+    "pomelo-protobuf": "^0.4.0",
+    "pomelo-protocol": "^0.1.6",
+    "ws": "^5.1.1"
+  }
+}
