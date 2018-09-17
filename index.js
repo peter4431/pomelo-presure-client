@@ -7,16 +7,20 @@ const END = 'end'      // 结束(action,reqId)
 const clientFunc = require('./lib/client')
 
 module.exports = class Presure {
-  constructor () {
+  constructor (offset) {
     this.client = clientFunc()
-    this.client.on('onPushMessage', function (msg) {
+    this.client.on('onPushMessage', (msg) => {
       let route = msg.route
       let body = msg.body
 
-      console.log(`onPushMessage: ${route} data: ${JSON.stringify(body)}`)
+      console.log(`id:${this.offset} onPushMessage: ${route} data: ${JSON.stringify(body)}`)
     })
 
-    this.offset = this.getOffset()
+    if (offset === undefined) {
+      offset = this.getOffset()
+    }
+
+    this.offset = offset
   }
 
   getOffset () {
@@ -36,9 +40,9 @@ module.exports = class Presure {
   request (route, data) {
     let client = this.client
     return new Promise(function (resolve, reject) {
-      console.log(route + ' req:' + JSON.stringify(data))
+      console.log(`id:${this.offset} ${route} req: ${JSON.stringify(data)}`)
       let reqId = client.request(route, data, function (res, reqId) {
-        console.log(route + ' res:' + JSON.stringify(res))
+        console.log(`id:${this.offset} route res: ${JSON.stringify(res)}`)
         this.monitor(END, route, reqId)
         resolve(res)
       }.bind(this))
